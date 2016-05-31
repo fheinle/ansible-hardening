@@ -1,0 +1,30 @@
+---
+- name: remove nfs
+  become: yes
+  apt: name={{ item }} state=absent
+  with_items:
+    - nfs-common
+    - portmap
+    - rpcbind
+
+- name: remove at
+  become: yes
+  apt: name=at state=absent
+
+- name: tmpfs for tmp
+  become: yes
+  mount: >
+    name=/tmp
+    src=tmpfs
+    fstype=tmpfs
+    opts="size=512M,mode=1777,nosuid,nodev,noexec"
+    state=mounted
+
+- name: secure shared memory
+  become: yes
+  mount: >
+    name=/run/shm
+    src=tmpfs
+    fstype=tmpfs
+    opts="defaults,noexec,nosuid"
+    state=mounted
