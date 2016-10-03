@@ -15,9 +15,8 @@ script:
   # First run should succeed
   - "ansible-playbook -i tests/inventory tests/test.yml --connection=local"
   # Second run should not change anything
-  - >
+	- >
   ansible-playbook -i tests/inventory tests/test.yml --connection=local
   | grep -q 'changed=0.*failed=0'
   && (echo 'Idempotence test: pass' && exit 0)
   || (echo 'Idempotence test: fail' && exit 1)
-
